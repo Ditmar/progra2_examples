@@ -20,7 +20,7 @@ public class ButtonComponent extends JButton {
         this.setLocation(CenterLayout.getCenter(this.parent, this), 0);
         this.setForeground(Palette.black);
         this.setFocusable(false);
-        this.setBackground(Palette.secondary);
+        this.setBackground(Palette.third);
         super.setSize(260, 40);
         this.setHorizontalAlignment(SwingConstants.CENTER);
     }

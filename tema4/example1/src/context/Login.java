@@ -1,4 +1,4 @@
-package ui;
+package context;
 
 import java.awt.Dimension;
 import java.awt.TextField;
@@ -12,19 +12,19 @@ import javax.swing.SwingConstants;
 
 import i18n.TextCodes;
 import i18n.Translations;
+import ui.custom.BaseWindow;
 import ui.custom.ButtonComponent;
 import ui.custom.ComboBoxComponent;
+import ui.custom.PanelBox;
 import ui.custom.PasswordTextComponent;
 import ui.custom.TextFieldComponent;
 
-public class Windows extends JFrame {
+public class Login extends BaseWindow {
     private Translations lang;
-
-    private String title;
     // panels
-    private JPanel leftPanel;
-    private JPanel rightPanel;
-    private JPanel bottomPanel;
+    private PanelBox leftPanel;
+    private PanelBox rightPanel;
+
     // labels
     private JLabel promptLabel;
     private JLabel titleLoginLabel;
@@ -36,14 +36,9 @@ public class Windows extends JFrame {
 
     private ButtonComponent button;
     
-    public Windows(Translations lang, String title) {
+    public Login(Translations lang, String title) {
         super(title);
         this.lang = lang;
-        this.title = title;
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1200, 720);
-        setLocationRelativeTo(this);
-        setLayout(null);
         createPanels();
         createLabels();
         createTextField();
@@ -68,6 +63,10 @@ public class Windows extends JFrame {
         this.button = new ButtonComponent(this.lang.getI18nText(TextCodes.enterText), this.rightPanel);
         this.button.setPosition(220);
         this.rightPanel.add(this.button);
+        this.button.addActionListener(e -> {
+            // validations here
+            this.getListener().onEvent("click-login"); // dispatch event to the listener, always the validations are correct
+        });
     }
     private void createLabels() {
         this.promptLabel = new JLabel(this.lang.getI18nText(TextCodes.promptText));
@@ -86,24 +85,20 @@ public class Windows extends JFrame {
     }
 
     private void  createPanels() {
-        this.leftPanel = new JPanel();
-        this.leftPanel.setSize(new Dimension(600, 500));
-        this.leftPanel.setLocation(0, 0);
+        this.leftPanel = new PanelBox();
+        this.leftPanel.roundedBorder(20);
+        this.leftPanel.setSize(new Dimension(750, 670));
+        this.leftPanel.setLocation(10, 10);
         this.leftPanel.setBackground(Palette.primary);
         this.leftPanel.setLayout(null);
         this.add(this.leftPanel);
-        this.rightPanel = new JPanel();
-        this.rightPanel.setSize(new Dimension(400, 500));
-        this.rightPanel.setLocation(600, 0);
+        this.rightPanel = new PanelBox();
+        this.rightPanel.roundedBorder(20);
+        this.rightPanel.setSize(new Dimension(350, 670));
+        this.rightPanel.setLocation(810, 10);
         this.rightPanel.setBackground(Palette.secondary);
         this.rightPanel.setLayout(null);
         this.add(this.rightPanel);
-        this.bottomPanel = new JPanel();
-        this.bottomPanel.setSize(new Dimension(1200, 220));
-        this.bottomPanel.setLocation(0, 500);
-        this.bottomPanel.setBackground(Palette.third);
-        this.bottomPanel.setLayout(null);
-        this.add(this.bottomPanel);
     }
     private void createCombo() {
         combo = new ComboBoxComponent<>(this.rightPanel);
@@ -113,17 +108,5 @@ public class Windows extends JFrame {
         combo.setPosition(180);
         this.rightPanel.add(combo);
     }
-    public void showWindow() {
-        setVisible(true);
-    }
-    public void hideWindow() {
-        setVisible(false);
-    }
 
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }
