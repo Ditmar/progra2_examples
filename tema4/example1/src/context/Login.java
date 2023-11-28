@@ -65,7 +65,7 @@ public class Login extends BaseWindow {
         this.rightPanel.add(this.button);
         this.button.addActionListener(e -> {
             // validations here
-            this.getListener().onEvent("click-login"); // dispatch event to the listener, always the validations are correct
+            this.getListener().onEvent("click-login", e); // dispatch event to the listener, always the validations are correct
         });
     }
     private void createLabels() {

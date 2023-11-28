@@ -2,6 +2,8 @@ package i18n;
 
 import java.util.HashMap;
 
+import org.w3c.dom.Text;
+
 import config.Environments;
 
 public class Translations {
@@ -19,6 +21,11 @@ public class Translations {
         en.put(TextCodes.clientText, "Client");
         en.put(TextCodes.cashierText, "Cashier");
         en.put(TextCodes.enterText, "Login");
+        en.put(TextCodes.emailTextField, "Email");
+        en.put(TextCodes.phone, "Phone");
+        en.put(TextCodes.registerUserNav, "Register User");
+        en.put(TextCodes.registerUserMainNav, "Main List");
+
         
 
 
@@ -34,7 +41,10 @@ public class Translations {
         es.put(TextCodes.clientText, "Cliente");
         es.put(TextCodes.cashierText, "Cajero");
         es.put(TextCodes.enterText, "Entrar");
-        
+        es.put(TextCodes.emailTextField, "Correo electronico");
+        es.put(TextCodes.phone, "Telefono");
+        es.put(TextCodes.registerUserNav, "REGISTRAR USUARIO");
+        es.put(TextCodes.registerUserMainNav, "LISTA PRINCIPAL");
         
         language.put("en", en);
         language.put("es", es);

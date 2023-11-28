@@ -1,6 +1,7 @@
 package context;
 
 import ui.custom.BaseWindow;
+import ui.custom.ButtonComponent;
 import ui.custom.PanelBox;
 import ui.custom.grid.GridTable;
 import ui.custom.grid.table.UserTableModel;
@@ -10,6 +11,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 import data.models.User;
+import i18n.TextCodes;
 import i18n.Translations;
 
 public class DashBoard extends BaseWindow {
@@ -17,18 +19,50 @@ public class DashBoard extends BaseWindow {
     private PanelBox middle;
     private PanelBox rightBox;
     private Translations lang;
+    private UserTableModel model;
+    private ArrayList<String> navList;
     public DashBoard(Translations lang, String title) {
         super(title);
         this.lang = lang;
+        navList = new ArrayList<>();
+        navList.add(this.lang.getI18nText(TextCodes.registerUserNav));
+        navList.add(this.lang.getI18nText(TextCodes.registerUserMainNav));
+        navList.add("mi boton loco");
+        
         createPanels();
         createGrid();
+        createMenu();
     }
-    public void createGrid() {
+    public void setData(ArrayList<User> users) {
+        for (User user : users) {
+            model.addRow(user);
+        }
+    }
+    public void refresh(User user) {
+        model.addRow(user);
+        model.fireTableDataChanged();
+    }
+    private void createMenu() {
+        Integer bottomMargin = 10;
+        for (String item : this.navList) {
+            ButtonComponent button = new ButtonComponent(item, this.leftBox);
+            button.setActionCommand(item);
+            button.setSize(new Dimension(200, 40));
+            Integer y = button.getHeight() * this.navList.indexOf(item) + bottomMargin;
+            button.setPosition(y);
+            button.addActionListener((event) -> {
+                if (event.getActionCommand().equals(this.lang.getI18nText(TextCodes.registerUserNav))) {
+                    this.getListener().onEvent("click-register", event);
+                    // RegisterForm registerForm = new RegisterForm(this.lang, this.lang.getI18nText(TextCodes.registerUserNav));
+                    // registerForm.showWindow();
+                }
+            });
+            this.leftBox.add(button);
+        }
+    }
+    private void createGrid() {
         ArrayList<User> users = new ArrayList<User>();
-        users.add(new User("Jhon", "jhon@gmail.com", "123456", "1234567890"));
-        users.add(new User("Martin", "martin@gmail.com", "123456", "123545467890"));
-        users.add(new User("Rolando", "rolo@gmail.com", "123456", "123545467890"));
-        UserTableModel model = new UserTableModel(users);
+        model = new UserTableModel(users);
         GridTable grid = new GridTable(model);
         this.middle.add(grid.getScrollPane());
     }

@@ -12,6 +12,10 @@ public class UserTableModel extends AbstractTableModel{
     public UserTableModel(ArrayList<User> users) {
         this.users = users;
     }
+    public void addRow(User user) {
+        this.users.add(user);
+        fireTableDataChanged();
+    }
 
     @Override
     public int getRowCount() {
